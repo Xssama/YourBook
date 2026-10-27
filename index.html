@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="./src/output.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
+    <title>Your Book</title>
+</head>
+<body>
+    <header class="flex flex-1 justify-between px-4 py-6 text-white bg-blue-400 [&>h2]:text-2xl [&>h2]:font-semibold [&>p]:text-lg [&>p]:text-white/90">
+            <h2 class=""><i class="fa-solid fa-book-open-reader"></i> <span>Ma bibliothèque</span></h2>
+            <p>Gérez votre collection de livres</p>
+    </header>
+    <main>
+        <section class="bg-gray-100 rounded-2xl my-7 mx-4 p-4 ">
+            <form id="livre-form">
+                <fieldset class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 [&>legend]:text-3xl [&>legend]:font-semibold [&>legend]:py-1 [&>div]:flex [&>div]:flex-col [&>div]:gap-2 [&>div>label]:text-xl  [&>div>input]:border-2 [&>div>input]:rounded-2xl [&>div>input]:px-4 [&>div>input]:py-2 [&>div>input]:border-gray-500 [&>div>input]:shadow-lg [&>div>p]:empty:hidden [&>div>input]:caret-blue-500 [&>div>select]:border-2 [&>div>select]:rounded-2xl [&>div>select]:p-2  [&>div>select]:border-gray-500  [&>div>select>option]:bg-gray-300 [&>div>textarea]:border-2 [&>div>textarea]:rounded-2xl [&>div>textarea]:p-2 [&>div>textarea]:border-gray-500 [&>div>option]:border-inherit [&>button]:border-2 [&>button]:border-blue-700 [&>button]:text-white [&>button]:text-xl [&>button]:bg-blue-400 [&>button]:rounded-2xl [&>button]:w-52 [&>button]:shadow-2xs [&>button]:hover:shadow-2xl [&>button]:hover:bg-gray-500 [&>button]:focus:bg-black/70" >
+                    <legend>Ajouter un livre</legend>
+                    <div>
+                        <label for="titre">Titre</label>
+                        <input type="text" id="titre" name="titre" placeholder="Ex: Dune" required>
+                        <p id="titre-erreur"></p>
+                    </div>
+
+                    <div>
+                        <label for="auteur">Auteur</label>
+                    <input type="text" id="auteur" name="auteur" placeholder="Ex: Frank Herbert" required>
+                    <p id="auteur-erreur"></p>
+                    </div>
+                    <div>
+                        <label for="annee">Annee</label>
+                        <input type="number" id="annee" name="annee" inputmode="numeric" placeholder="Ex: 1965">
+                        <p id="annee-erreur"></p>
+                    </div>
+                    
+                    <div>
+                        <label for="genre">Genre</label>
+                        <input type="text" id="genre" name="genre" placeholder="Ex: Science-fiction">
+                        <p id="genre-erreur"></p>
+                    </div>    
+                    
+                    <div>
+                        <label for="status">Statu de lecture</label>
+                        <select name="status" id="status">
+                            <option value="a-lire">A lire</option>
+                            <option value="lu">Lu</option>
+                            <option value="en-cours">En cours</option>
+
+                        </select>
+                        <p id="status-erreur"></p>
+                    </div>
+
+                    <div>
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" placeholder="Une courte description..."></textarea>
+                        <p id="description-erreur"></p>
+                    </div>
+                    <button type="submit" id="ajouter-livre">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Ajouter le livre</button></span>
+                </fieldset>
+            </form>
+        </section>
+        <section>
+            <div class="rounded-xl border border-slate-200 bg-gray-200 flex justify-between py-4 px-2 mx-4">
+                <input type="text" id="cherche-input">
+            
+                <label for="trier-livres">Trier par: </label>
+                <select name="trier" id="trier-livres">
+                    <option value="titre">Titre</option>
+                    <option value="auteur">Auteur</option>
+                    <option value="annee">Annee</option>
+                </select>
+            </div>
+
+            <div class="w-full overflow-hidden rounded-xl border border-slate-200 bg-white">
+                <table id="livres" class="table-auto  w-full p-2 my-4 mx-2 border-2 text-left [&>thead>tr>th]:p-2 [&>thead>tr>th]:font-semibold [&>tbody>tr>td]:p-2">
+                    <thead>
+                        <tr class="border-b-2 border-indigo-300">
+                            <th>Titre</th>
+                            <th>Auteur</th>
+                            <th>Annee</th>
+                            <th>Genre</th>
+                            <th>Statu</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
