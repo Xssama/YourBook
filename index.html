@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./src/output.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
     <title>Your Book</title>
+    <script src="./src/app.js" defer></script>
 </head>
 <body>
     <header class="flex flex-1 justify-between px-4 py-6 text-white bg-blue-400 [&>h2]:text-2xl [&>h2]:font-semibold [&>p]:text-lg [&>p]:text-white/90">
@@ -16,28 +17,28 @@
     <main>
         <section class="bg-gray-100 rounded-2xl my-7 mx-4 p-4 ">
             <form id="livre-form">
-                <fieldset class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 [&>legend]:text-3xl [&>legend]:font-semibold [&>legend]:py-1 [&>div]:flex [&>div]:flex-col [&>div]:gap-2 [&>div>label]:text-xl  [&>div>input]:border-2 [&>div>input]:rounded-2xl [&>div>input]:px-4 [&>div>input]:py-2 [&>div>input]:border-gray-500 [&>div>input]:shadow-lg [&>div>p]:empty:hidden [&>div>input]:caret-blue-500 [&>div>select]:border-2 [&>div>select]:rounded-2xl [&>div>select]:p-2  [&>div>select]:border-gray-500  [&>div>select>option]:bg-gray-300 [&>div>textarea]:border-2 [&>div>textarea]:rounded-2xl [&>div>textarea]:p-2 [&>div>textarea]:border-gray-500 [&>div>option]:border-inherit [&>button]:border-2 [&>button]:border-blue-700 [&>button]:text-white [&>button]:text-xl [&>button]:bg-blue-400 [&>button]:rounded-2xl [&>button]:w-52 [&>button]:shadow-2xs [&>button]:hover:shadow-2xl [&>button]:hover:bg-gray-500 [&>button]:focus:bg-black/70" >
+                <fieldset class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 [&>legend]:text-3xl [&>legend]:font-semibold [&>legend]:py-1 [&>div]:flex [&>div]:flex-col [&>div]:gap-2 [&>div>label]:text-xl  [&>div>input]:border-2 [&>div>input]:rounded-2xl [&>div>input]:px-4 [&>div>input]:py-2 [&>div>input]:shadow-lg [&>div>p]:empty:hidden [&>div>p]:font-extralight [&>div>p]:text-lg [&>div>p]:text-red-600 [&>div>input]:caret-blue-500 [&>div>select]:border-2 [&>div>select]:rounded-2xl [&>div>select]:p-2  [&>div>select]:border-gray-500  [&>div>select>option]:bg-gray-300 [&>div>textarea]:border-2 [&>div>textarea]:rounded-2xl [&>div>textarea]:p-2 [&>div>textarea]:border-gray-500 [&>div>option]:border-inherit [&>button]:border-2 [&>button]:border-blue-700 [&>button]:text-white [&>button]:text-xl [&>button]:bg-blue-400 [&>button]:rounded-2xl [&>button]:w-52 [&>button]:shadow-2xs [&>button]:hover:shadow-2xl [&>button]:hover:bg-gray-500 [&>button]:focus:bg-black/70" >
                     <legend>Ajouter un livre</legend>
                     <div>
                         <label for="titre">Titre</label>
-                        <input type="text" id="titre" name="titre" placeholder="Ex: Dune" required>
+                        <input type="text" id="titre" name="titre" placeholder="Ex: Dune" class="border-gray-500" required>
                         <p id="titre-erreur"></p>
                     </div>
 
                     <div>
                         <label for="auteur">Auteur</label>
-                    <input type="text" id="auteur" name="auteur" placeholder="Ex: Frank Herbert" required>
+                    <input type="text" id="auteur" name="auteur" placeholder="Ex: Frank Herbert" class="border-gray-500" required>
                     <p id="auteur-erreur"></p>
                     </div>
                     <div>
                         <label for="annee">Annee</label>
-                        <input type="number" id="annee" name="annee" inputmode="numeric" placeholder="Ex: 1965">
+                        <input type="number" id="annee" name="annee" inputmode="numeric" class="border-gray-500" placeholder="Ex: 1965">
                         <p id="annee-erreur"></p>
                     </div>
                     
                     <div>
                         <label for="genre">Genre</label>
-                        <input type="text" id="genre" name="genre" placeholder="Ex: Science-fiction">
+                        <input type="text" id="genre" name="genre" class="border-gray-500" placeholder="Ex: Science-fiction">
                         <p id="genre-erreur"></p>
                     </div>    
                     
@@ -59,7 +60,8 @@
                     </div>
                     <button type="submit" id="ajouter-livre">
                         <i class="fa-solid fa-plus"></i>
-                        <span>Ajouter le livre</button></span>
+                        <span>Ajouter le livre</span></button>
+                    <p id="ajouter-livre-erreur" class="empty:hidden font-extralight text-lg text-red-600"></p>
                 </fieldset>
             </form>
         </section>
