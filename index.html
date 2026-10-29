@@ -66,15 +66,21 @@
             </form>
         </section>
         <section>
-            <div class="rounded-xl border border-slate-200 bg-gray-200 flex justify-between py-4 px-2 mx-4">
-                <input type="text" id="cherche-input">
-            
+            <div class="rounded-xl border border-slate-200 bg-gray-200 flex flex-wrap md:flex-nowrap md:justify-between gap-2 py-4 px-2 mx-4 ">
+                <div class="[&>input]:border [&>input]:border-mist-400 [&>input]:rounded-2xl [&>input]:p-2 [&>input]:mb-1">
+                <input type="text" id="cherche-input" placeholder="Rechercher un livre (titre ou auteur) ...">
+                </div>
+
+                <div class="[&>button]:border-2 [&>button]:border-gray-300 [&>button]:rounded-2xl [&>button]:bg-mist-300 [&>button]:py-1 [&>button]:px-4 [&>button]:hover:bg-mist-400 [&>button]:focus:shadow-2xl [&>select]:border-2 [&>select]:border-mist-300 [&>select]:rounded-2xl">    
                 <label for="trier-livres">Trier par: </label>
                 <select name="trier" id="trier-livres">
                     <option value="titre">Titre</option>
                     <option value="auteur">Auteur</option>
                     <option value="annee">Annee</option>
                 </select>
+                <button id="trier-button"><i class="fa-solid fa-sort"></i></button>
+            
+                </div>
             </div>
 
             <div class="w-full overflow-hidden rounded-xl border border-slate-200 bg-white">

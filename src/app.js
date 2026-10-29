@@ -24,7 +24,9 @@ let description_erreur = document.getElementById('description-erreur')
 
 let submit_btn = document.getElementById('ajouter-livre')
 let submit_btn_erreur = document.getElementById('ajouter-livre-erreur')
-
+//table-filter
+let trier_btn = document.getElementById('trier-button')
+let trier_livres = document.getElementById('trier-livres')
 //table
 let livre_tableau = document.getElementById('livres-tableau')
 let tableau_corps = document.getElementById('livres-tableau-corps')
@@ -186,7 +188,7 @@ function ObjectToDataRow(livre)
 
     return livre_ligne
 }
-function fillTale()
+function fillTale(tab=livres)
 {
     tableau_corps.replaceChildren()
     for (let livre of livres) {
@@ -195,7 +197,6 @@ function fillTale()
 }
 function SupprimerLivre(row)
 {
-    console.log('hello form supprimer livre');
     
     let Sup_confirm = confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')
     if (Sup_confirm) {
@@ -221,19 +222,49 @@ function TableauActionEvetListener(event)
     }
     fillTale()
 }
-// function fillchamps()
-// {
-//     titre.value = "antigone"
-//     auteur.value = "xussama"
-//     annee.value = "1999"
-//     genre.value = "science"
-//     description.value = "une courte description"
+function fillchamps()
+{
+    titre.value = "antigone"
+    auteur.value = "xussama"
+    annee.value = "1999"
+    genre.value = "science"
+    description.value = "une courte description"
 
-// }
-// fillchamps()
+}
+fillchamps()
+function trierParTitre()
+{
+    let livrestrier = livres.sort((livreA, livreB) => livreA.titre.localeCompare(livreB.titre) )
+    localStorage.setItem('livres', JSON.stringify(livrestrier))
+    fillTale(livrestrier)
+}
+function trierParAuteur()
+{
+    let livrestrier = livres.sort((livreA, livreB) => livreA.auteur.localeCompare(livreB.auteur) )
+    localStorage.setItem('livres', JSON.stringify(livrestrier))
+    fillTale(livrestrier)
+}
+function trierParAnnee() {
+    let livrestrier = livres.sort((livreA, livreB) => Number(livreB.annee) - Number(livreA.annee)  )
+    localStorage.setItem('livres', JSON.stringify(livrestrier))
+    fillTale(livrestrier)
+}
+function triertableau()
+{
+    if (trier_livres.value === "titre") {
+        trierParTitre()
+    }
+    else if (trier_livres.value === "auteur") {
+        trierParAuteur()
+    }
+    else{
+        trierParAnnee()
+    }
+}
 titre.addEventListener('focusout', ValidateTitle)
 auteur.addEventListener('focusout', ValidateAuteur)
 annee.addEventListener('focusout', ValidateYear)
 livre_form.addEventListener('submit', AjouterLivreEventHandler)
 fillTale()
 livre_tableau.addEventListener('click', TableauActionEvetListener)
+trier_btn.addEventListener('click', triertableau)
