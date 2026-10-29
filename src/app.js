@@ -25,6 +25,10 @@ let description_erreur = document.getElementById('description-erreur')
 let submit_btn = document.getElementById('ajouter-livre')
 let submit_btn_erreur = document.getElementById('ajouter-livre-erreur')
 
+//table
+let livre_tableau = document.getElementById('livres-tableau')
+let tableau_corps = document.getElementById('livres-tableau-corps')
+//localstorage
 let livres = JSON.parse(localStorage.getItem('livres')) || []
 function isNameValid(nom, minlength = 3, maxlength = 40)
 {
@@ -108,7 +112,7 @@ function AjouterLivreEventHandler(event)
     event.preventDefault()
     const livre = {
         id: new Date().getTime(),
-        livre: '',
+        titre: '',
         auteur: '',
         annee: 0,
         genre: '',
@@ -130,13 +134,106 @@ function AjouterLivreEventHandler(event)
         livre.genre = genre.value
         livre.statu = status.value
         livre.description = description.value
-        console.log(livre);
         livres.push(livre)
-        localStorage.setItem('livres', JSON.stringify(livre))
+        localStorage.setItem('livres', JSON.stringify(livres))
+        fillTale()
     }
     
 }
+function ObjectToDataRow(livre)
+{
+    let livre_ligne = document.createElement('tr')
+    livre_ligne.setAttribute('id', livre.id)
+    let titre_td = document.createElement('td')
+    titre_td.textContent = livre.titre
+    livre_ligne.appendChild(titre_td)
+    
+    let auteur_td = document.createElement('td')
+    auteur_td.textContent = livre.auteur
+    livre_ligne.appendChild(auteur_td)
+    
+    let annee_td = document.createElement('td')
+    annee_td.textContent = livre.annee
+    livre_ligne.appendChild(annee_td)
+    
+    let genre_td = document.createElement('td')
+    genre_td.textContent = livre.genre
+    livre_ligne.appendChild(genre_td)
+    
+    let statu_td = document.createElement('td')
+    statu_td.textContent = livre.statu
+    livre_ligne.appendChild(statu_td)
+    
+    let description_td = document.createElement('td')
+    description_td.textContent = livre.description  
+    livre_ligne.appendChild(description_td)
+    
+    let action =  document.createElement('td')
+    let Editbtn =  document.createElement('button')
+    Editbtn.setAttribute('data-action', 'edit-livre')
+    Editbtn.textContent = 'Modifier'
+    Editbtn.classList.add('mr-2')
+    Editbtn.classList.add('bg-blue-500')
+    action.appendChild(Editbtn)
+    
+    let Removebtn =  document.createElement('button')
+    Removebtn.setAttribute('data-action', 'remove-livre')
+    Removebtn.textContent = 'Supprimer'
+    Removebtn.classList.add('bg-red-500')
+    action.appendChild(Removebtn)
+    
+    livre_ligne.appendChild(action)
+
+    return livre_ligne
+}
+function fillTale()
+{
+    tableau_corps.replaceChildren()
+    for (let livre of livres) {
+        tableau_corps.appendChild(ObjectToDataRow(livre))
+    }
+}
+function SupprimerLivre(row)
+{
+    console.log('hello form supprimer livre');
+    
+    let Sup_confirm = confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')
+    if (Sup_confirm) {
+        livres = livres.filter((livre) => 
+        row.getAttribute('id') != livre.id)
+        localStorage.setItem('livres', JSON.stringify(livres))
+        row.remove()
+    }
+}
+function TableauActionEvetListener(event)
+{
+    
+    let button = event.target.closest("[data-action='remove-livre']")  || event.target.closest("[data-action='edit-livre']")
+    
+    if (!button) {
+        return
+    }
+    
+    
+    if (button.getAttribute('data-action') == 'remove-livre') {
+        SupprimerLivre(button.closest('tr'))
+
+    }
+    fillTale()
+}
+// function fillchamps()
+// {
+//     titre.value = "antigone"
+//     auteur.value = "xussama"
+//     annee.value = "1999"
+//     genre.value = "science"
+//     description.value = "une courte description"
+
+// }
+// fillchamps()
 titre.addEventListener('focusout', ValidateTitle)
 auteur.addEventListener('focusout', ValidateAuteur)
 annee.addEventListener('focusout', ValidateYear)
 livre_form.addEventListener('submit', AjouterLivreEventHandler)
+fillTale()
+livre_tableau.addEventListener('click', TableauActionEvetListener)
