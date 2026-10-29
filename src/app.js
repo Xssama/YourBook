@@ -27,6 +27,7 @@ let submit_btn_erreur = document.getElementById('ajouter-livre-erreur')
 //table-filter
 let trier_btn = document.getElementById('trier-button')
 let trier_livres = document.getElementById('trier-livres')
+let chercher_input = document.getElementById('cherche-input')
 //table
 let livre_tableau = document.getElementById('livres-tableau')
 let tableau_corps = document.getElementById('livres-tableau-corps')
@@ -138,7 +139,7 @@ function AjouterLivreEventHandler(event)
         livre.description = description.value
         livres.push(livre)
         localStorage.setItem('livres', JSON.stringify(livres))
-        fillTale()
+        fillTable()
     }
     
 }
@@ -188,11 +189,12 @@ function ObjectToDataRow(livre)
 
     return livre_ligne
 }
-function fillTale(tab=livres)
+function fillTable(tab=livres)
 {
     tableau_corps.replaceChildren()
-    for (let livre of livres) {
-        tableau_corps.appendChild(ObjectToDataRow(livre))
+
+    for (let element of tab) {
+        tableau_corps.appendChild(ObjectToDataRow(element))
     }
 }
 function SupprimerLivre(row)
@@ -220,7 +222,7 @@ function TableauActionEvetListener(event)
         SupprimerLivre(button.closest('tr'))
 
     }
-    fillTale()
+    fillTable()
 }
 function fillchamps()
 {
@@ -235,19 +237,16 @@ fillchamps()
 function trierParTitre()
 {
     let livrestrier = livres.sort((livreA, livreB) => livreA.titre.localeCompare(livreB.titre) )
-    localStorage.setItem('livres', JSON.stringify(livrestrier))
-    fillTale(livrestrier)
+    fillTable(livrestrier)
 }
 function trierParAuteur()
 {
     let livrestrier = livres.sort((livreA, livreB) => livreA.auteur.localeCompare(livreB.auteur) )
-    localStorage.setItem('livres', JSON.stringify(livrestrier))
-    fillTale(livrestrier)
+    fillTable(livrestrier)
 }
 function trierParAnnee() {
     let livrestrier = livres.sort((livreA, livreB) => Number(livreB.annee) - Number(livreA.annee)  )
-    localStorage.setItem('livres', JSON.stringify(livrestrier))
-    fillTale(livrestrier)
+    fillTable(livrestrier)
 }
 function triertableau()
 {
@@ -261,10 +260,26 @@ function triertableau()
         trierParAnnee()
     }
 }
+function rechercher()
+{
+    
+    let inputValue = chercher_input.value
+    let filtredtable = []
+    if (inputValue.trim() != "") {
+        filtredtable = livres.filter((livre) => livre.titre.toLowerCase().includes(inputValue.toLowerCase()) ||
+            livre.auteur.toLowerCase().includes(inputValue.toLowerCase()))
+    fillTable(filtredtable)
+    }
+    else
+    {
+        fillTable()
+    }
+}
+chercher_input.addEventListener('input', rechercher)
 titre.addEventListener('focusout', ValidateTitle)
 auteur.addEventListener('focusout', ValidateAuteur)
 annee.addEventListener('focusout', ValidateYear)
 livre_form.addEventListener('submit', AjouterLivreEventHandler)
-fillTale()
+fillTable()
 livre_tableau.addEventListener('click', TableauActionEvetListener)
 trier_btn.addEventListener('click', triertableau)
