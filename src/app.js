@@ -33,6 +33,37 @@ let livre_tableau = document.getElementById('livres-tableau')
 let tableau_corps = document.getElementById('livres-tableau-corps')
 //localstorage
 let livres = JSON.parse(localStorage.getItem('livres')) || []
+
+//dialog
+let modifier_dialog = document.querySelector('dialog')
+
+let modifier_titre = document.getElementById('modifier-titre')
+let modifier_titre_erreur = document.getElementById('modifier-titre-erreur')
+
+let modifier_auteur = document.getElementById('modifier-auteur')
+let modifier_auteur_erreur = document.getElementById('modifier-auteur-erreur')
+
+
+let modifier_annee = document.getElementById('modifier-annee')
+let modifier_annee_erreur = document.getElementById('modifier-annee-erreur')
+
+
+let modifier_genre = document.getElementById('modifier-genre')
+let modifier_genre_erreur = document.getElementById('modifier-genre-erreur')
+
+
+let modifier_status = document.getElementById('modifier-status')
+let modifier_status_erreur = document.getElementById('modifier-status-erreur')
+
+
+let modifier_description = document.getElementById('modifier-description')
+let modifier_description_erreur = document.getElementById('modifier-description-erreur')
+
+let modifier_submit_btn = document.getElementById('modifier-livre')
+
+let cancel_modification_btn = document.getElementById('cancel-modification')
+
+let index_to_modify = -1
 function isNameValid(nom, minlength = 3, maxlength = 40)
 {
     const regex = /[^\p{L}0-9 -]/u
@@ -208,10 +239,32 @@ function SupprimerLivre(row)
         row.remove()
     }
 }
+
+function showdialog(row)
+{
+    index_to_modify = livres.findIndex(livre => livre.id == Number(row.getAttribute('id')))
+    if (index_to_modify < 0) {
+        return
+    }
+    let livre = livres[index_to_modify]
+    console.log(livre);
+    
+    if (livre != null) {
+        modifier_titre.value = livre.titre
+        modifier_auteur.value =  livre.auteur
+        modifier_annee.value =  livre.annee
+        modifier_genre.value =  livre.genre
+        modifier_auteur.value =  livre.auteur
+        modifier_description.value =  livre.description
+        modifier_dialog.showModal()
+    }
+    
+}
 function TableauActionEvetListener(event)
 {
     
     let button = event.target.closest("[data-action='remove-livre']")  || event.target.closest("[data-action='edit-livre']")
+    
     
     if (!button) {
         return
@@ -222,18 +275,14 @@ function TableauActionEvetListener(event)
         SupprimerLivre(button.closest('tr'))
 
     }
-    fillTable()
+    else 
+    {
+        let row = button.closest('tr')
+        
+        showdialog(row)
+    }
 }
-function fillchamps()
-{
-    titre.value = "antigone"
-    auteur.value = "xussama"
-    annee.value = "1999"
-    genre.value = "science"
-    description.value = "une courte description"
 
-}
-fillchamps()
 function trierParTitre()
 {
     let livrestrier = livres.sort((livreA, livreB) => livreA.titre.localeCompare(livreB.titre) )
@@ -275,6 +324,44 @@ function rechercher()
         fillTable()
     }
 }
+function ModifierLivreEventHanler()
+{
+    if (index_to_modify < 0) {
+        return
+    }
+    
+    livres[index_to_modify].titre = modifier_titre.value
+    livres[index_to_modify].auteur = modifier_auteur.value
+    livres[index_to_modify].annee = modifier_annee.value
+    livres[index_to_modify].statu = modifier_status.value
+    livres[index_to_modify].genre = modifier_genre.value
+    livres[index_to_modify].description = modifier_description.value
+
+    localStorage.setItem('livres', JSON.stringify(livres))
+    modifier_dialog.close()
+    fillTable()
+}
+function HandleDialogEventListener(event)
+{
+    let button = event.target.closest('button[data-action="modifier"]' ) || event.target.closest('button[data-action="cancel"]')
+    console.log(button);
+    if (!button) {
+        return;
+    }
+    if (button.getAttribute('data-action') === 'modifier') {
+        ModifierLivreEventHanler()
+    }
+    else
+    {
+        modifier_dialog.close()
+    }
+}
+modifier_dialog.addEventListener('click', HandleDialogEventListener)
+console.log(modifier_submit_btn);
+
+// modifier_submit_btn.addEventListener('click', (event) => {
+//     
+// })
 chercher_input.addEventListener('input', rechercher)
 titre.addEventListener('focusout', ValidateTitle)
 auteur.addEventListener('focusout', ValidateAuteur)
