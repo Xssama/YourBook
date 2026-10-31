@@ -102,5 +102,61 @@
             </div>
         </section>
     </main>
+    <dialog class="m-auto w-[min(92vw,28rem)]  rounded-2xl my-7 mx-4 p-4 ">
+            <form id="modifier-livre">
+                <fieldset class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-2 [&>legend]:text-3xl [&>legend]:font-semibold [&>legend]:py-1 [&>div]:flex [&>div]:flex-col [&>div]:gap-2 [&>div>label]:text-xl  [&>div>input]:border-2 [&>div>input]:rounded-2xl [&>div>input]:px-4 [&>div>input]:py-2 [&>div>input]:shadow-lg [&>div>p]:empty:hidden [&>div>p]:font-extralight [&>div>p]:text-lg [&>div>p]:text-red-600 [&>div>input]:caret-blue-500 [&>div>select]:border-2 [&>div>select]:rounded-2xl [&>div>select]:p-2  [&>div>select]:border-gray-500  [&>div>select>option]:bg-gray-300 [&>div>textarea]:border-2 [&>div>textarea]:rounded-2xl [&>div>textarea]:p-2 [&>div>textarea]:border-gray-500 [&>div>option]:border-inherit [&>div>button]:border-2 [&>div>button]:border-blue-700 [&>div>button]:text-white [&>div>button]:text-xl [&>div>button]:bg-blue-400 [&>div>button]:rounded-2xl [&>div>button]:w-52 [&>div>button]:shadow-2xs [&>div>button]:hover:shadow-2xl [&>div>button]:hover:bg-gray-500 [&>div>button]:focus:bg-black/70" >
+                    <legend>modifier un livre</legend>
+                    <div>
+                        <label for="modifier-titre">Titre</label>
+                        <input type="text" id="modifier-titre" name="titre" placeholder="Ex: Dune" class="border-gray-500" required>
+                        <p id="modifier-titre-erreur"></p>
+                    </div>
+
+                    <div>
+                        <label for="modifier-auteur">Auteur</label>
+                    <input type="text" id="modifier-auteur" name="auteur" placeholder="Ex: Frank Herbert" class="border-gray-500" required>
+                    <p id="modifier-auteur-erreur"></p>
+                    </div>
+                    <div>
+                        <label for="modifier-annee">Annee</label>
+                        <input type="number" id="modifier-annee" name="annee" inputmode="numeric" class="border-gray-500" placeholder="Ex: 1965">
+                        <p id="modifier-annee-erreur"></p>
+                    </div>
+                    
+                    <div>
+                        <label for="modifier-genre">Genre</label>
+                        <input type="text" id="modifier-genre" name="genre" class="border-gray-500" placeholder="Ex: Science-fiction">
+                        <p id="modifier-genre-erreur"></p>
+                    </div>    
+                    
+                    <div>
+                        <label for="modifier-status">Statu de lecture</label>
+                        <select name="status" id="modifier-status">
+                            <option value="a-lire">A lire</option>
+                            <option value="lu">Lu</option>
+                            <option value="en-cours">En cours</option>
+
+                        </select>
+                        <p id="modifier-status-erreur"></p>
+                    </div>
+
+                    <div>
+                        <label for="modifier-description">Description</label>
+                        <textarea name="description" id="modifier-description" placeholder="Une courte description..."></textarea>
+                        <p id="modifier-description-erreur"></p>
+                    </div>
+                    <div class="[&>button]:border-2 [&>button]:border-blue-700 [&>button]:text-white [&>button]:text-xl [&>button]:bg-blue-400 [&>button]:rounded-2xl [&>button]:w-52 [&>button]:shadow-2xs [&>button]:hover:shadow-2xl [&>button]:hover:bg-gray-500 [&>button]:focus:bg-black/70">
+                        <button type="button" id="modifier-livre" data-action="modifier">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        <span>Modifier</span></button>
+                        <button type="button" id="cancel-modification" data-action="cancel">
+                        <i class="fa-solid fa-x"></i>
+                        <span>Annuler</span></button>
+                        
+                    </div>
+                    <p id="modifier-livre-erreur" class="empty:hidden font-extralight text-lg text-red-600"></p>
+                </fieldset>
+            </form>
+        </dialog>
 </body>
 </html>
