@@ -1,28 +1,13 @@
+// imports
+
+import { AllFormInputsAreValid } from "./validations.js";
+import {ReturnFormInputs_object} from "./validations.js"
+
+import { AllDialogInputsAreValid } from "./validations.js";
+import { ReturnDialogInputs_object } from "./validations.js";
+import {InitDialogInputs} from './validations.js';
 //form
 let livre_form = document.getElementById('livre-form')
-let titre = document.getElementById('titre')
-let titre_erreur = document.getElementById('titre-erreur')
-
-let auteur = document.getElementById('auteur')
-let auteur_erreur = document.getElementById('auteur-erreur')
-
-
-let annee = document.getElementById('annee')
-let annee_erreur = document.getElementById('annee-erreur')
-
-
-let genre = document.getElementById('genre')
-let genre_erreur = document.getElementById('genre-erreur')
-
-
-let status = document.getElementById('status')
-let status_erreur = document.getElementById('status-erreur')
-
-
-let description = document.getElementById('description')
-let description_erreur = document.getElementById('description-erreur')
-
-let submit_btn = document.getElementById('ajouter-livre')
 let submit_btn_erreur = document.getElementById('ajouter-livre-erreur')
 //table-filter
 let trier_btn = document.getElementById('trier-button')
@@ -36,138 +21,22 @@ let livres = JSON.parse(localStorage.getItem('livres')) || []
 
 //dialog
 let modifier_dialog = document.querySelector('dialog')
-
-let modifier_titre = document.getElementById('modifier-titre')
-let modifier_titre_erreur = document.getElementById('modifier-titre-erreur')
-
-let modifier_auteur = document.getElementById('modifier-auteur')
-let modifier_auteur_erreur = document.getElementById('modifier-auteur-erreur')
-
-
-let modifier_annee = document.getElementById('modifier-annee')
-let modifier_annee_erreur = document.getElementById('modifier-annee-erreur')
-
-
-let modifier_genre = document.getElementById('modifier-genre')
-let modifier_genre_erreur = document.getElementById('modifier-genre-erreur')
-
-
-let modifier_status = document.getElementById('modifier-status')
-let modifier_status_erreur = document.getElementById('modifier-status-erreur')
-
-
-let modifier_description = document.getElementById('modifier-description')
-let modifier_description_erreur = document.getElementById('modifier-description-erreur')
-
-let modifier_submit_btn = document.getElementById('modifier-livre')
-
-let cancel_modification_btn = document.getElementById('cancel-modification')
+let modifier_livre_erreurP = document.getElementById('modifier-livre-erreur')
 
 let index_to_modify = -1
-function isNameValid(nom, minlength = 3, maxlength = 40)
-{
-    const regex = /[^\p{L}0-9 -]/u
-    nom = nom.trim()
-    nom = nom.replace(/ +/, " ")
-    if(nom.length >= minlength && nom.length <= maxlength)
-    {
-        if (regex.test(nom)) {
-            return false
-        }
-        else
-        {
-            return true
-        }
-        
-    }
-    
-    return false
-}
-
-function ValidateTitle()
-{
-    
-    if (!isNameValid(titre.value, 1, 999)) {
-        titre.classList.remove('border-gray-500')
-        titre.classList.add('border-red-500')
-        titre_erreur.textContent= 'le nom entree n\'est pas valide!'
-        titre_erreur.classList.add('todo-erreur')
-    }
-    else
-    {
-        titre.classList.add('border-gray-500')
-        titre.classList.remove('border-red-500')
-        titre_erreur.textContent= ''
-        titre_erreur.classList.remove('todo-erreur')
-
-    }
-}
-function ValidateAuteur()
-{
-    if (!isNameValid(auteur.value, 1, 999)) {
-        auteur.classList.remove('border-gray-500')
-        auteur.classList.add('border-red-500')
-        auteur_erreur.textContent= 'le nom d\'auteur n\'est pas valide!'
-        auteur_erreur.classList.add('todo-erreur')
-    }
-    else
-    {
-        auteur.classList.add('border-gray-500')
-        auteur.classList.remove('border-red-500')
-        auteur_erreur.textContent= ''
-        auteur_erreur.classList.remove('todo-erreur')
-
-    }
-}
-function ValidateYear()
-{
-    if (annee.value == "") {
-        return
-    }
-    let currentyear = new Date().getFullYear()
-    if (Number(annee.value) > currentyear) {
-        annee.classList.remove('border-gray-500')
-        annee.classList.add('border-red-500')
-        annee_erreur.textContent= 'l\'annee n\'est pas valide!'
-        annee_erreur.classList.add('todo-erreur')
-    }
-    else
-    {
-        annee.classList.add('border-gray-500')
-        annee.classList.remove('border-red-500')
-        annee_erreur.textContent= ''
-        annee_erreur.classList.remove('todo-erreur')
-
-    }
-}
 
 function AjouterLivreEventHandler(event)
 {
     event.preventDefault()
-    const livre = {
-        id: new Date().getTime(),
-        titre: '',
-        auteur: '',
-        annee: 0,
-        genre: '',
-        statu: 'a-lire',
-        description: '',
-
-    }
-    let ErreursP = document.getElementsByClassName('todo-erreur')
-    if (ErreursP.length > 0) {
+    
+    if (!AllFormInputsAreValid()) {
         submit_btn_erreur.textContent = "Veuillez corriger les erreurs signalées avant de soumettre le formulaire."
         
     }
     else
     {
         submit_btn_erreur.textContent = ''
-        livre.titre = titre.value
-        livre.auteur = auteur.value
-        livre.annee = annee.value
-        livre.genre = genre.value
-        livre.statu = status.value
-        livre.description = description.value
+        let livre = ReturnFormInputs_object()
         livres.push(livre)
         localStorage.setItem('livres', JSON.stringify(livres))
         fillTable()
@@ -187,19 +56,19 @@ function ObjectToDataRow(livre)
     livre_ligne.appendChild(auteur_td)
     
     let annee_td = document.createElement('td')
-    annee_td.textContent = livre.annee
+    annee_td.textContent = (livre.annee == "" ? "-":livre.annee)
     livre_ligne.appendChild(annee_td)
     
     let genre_td = document.createElement('td')
-    genre_td.textContent = livre.genre
+    genre_td.textContent = (livre.genre == "" ? "-":livre.genre)
     livre_ligne.appendChild(genre_td)
     
     let statu_td = document.createElement('td')
-    statu_td.textContent = livre.statu
+    statu_td.textContent = (livre.statu == "" ? "-":livre.statu)
     livre_ligne.appendChild(statu_td)
     
     let description_td = document.createElement('td')
-    description_td.textContent = livre.description  
+    description_td.textContent = (livre.description == "" ? "-":livre.description)  
     livre_ligne.appendChild(description_td)
     
     let action =  document.createElement('td')
@@ -247,15 +116,9 @@ function showdialog(row)
         return
     }
     let livre = livres[index_to_modify]
-    console.log(livre);
     
     if (livre != null) {
-        modifier_titre.value = livre.titre
-        modifier_auteur.value =  livre.auteur
-        modifier_annee.value =  livre.annee
-        modifier_genre.value =  livre.genre
-        modifier_auteur.value =  livre.auteur
-        modifier_description.value =  livre.description
+        InitDialogInputs(livre)
         modifier_dialog.showModal()
     }
     
@@ -324,25 +187,39 @@ function rechercher()
         fillTable()
     }
 }
+
 function ModifierLivreEventHanler()
 {
     if (index_to_modify < 0) {
         return
     }
-    
-    livres[index_to_modify].titre = modifier_titre.value
-    livres[index_to_modify].auteur = modifier_auteur.value
-    livres[index_to_modify].annee = modifier_annee.value
-    livres[index_to_modify].statu = modifier_status.value
-    livres[index_to_modify].genre = modifier_genre.value
-    livres[index_to_modify].description = modifier_description.value
+    if (!AllDialogInputsAreValid()) {
+        modifier_livre_erreurP.textContent = 'Veuillez corriger les erreurs signalées avant de soumettre le formulaire.'
+    }
+    else
+    {
+        modifier_livre_erreurP.textContent = ''
+        let obj = ReturnDialogInputs_object()
+        console.log(obj);
+        
+        livres[index_to_modify].titre = obj.titre
+        livres[index_to_modify].auteur = obj.auteur
+        livres[index_to_modify].annee = obj.annee
+        livres[index_to_modify].statu = obj.statu
+        livres[index_to_modify].genre = obj.genre
+        livres[index_to_modify].description = obj.description
 
-    localStorage.setItem('livres', JSON.stringify(livres))
-    modifier_dialog.close()
-    fillTable()
+        localStorage.setItem('livres', JSON.stringify(livres))
+        modifier_dialog.close()
+        console.log('the book is modified succesfully');
+        
+    }
+    
+    
 }
 function HandleDialogEventListener(event)
 {
+    event.preventDefault()
     let button = event.target.closest('button[data-action="modifier"]' ) || event.target.closest('button[data-action="cancel"]')
     console.log(button);
     if (!button) {
@@ -350,6 +227,7 @@ function HandleDialogEventListener(event)
     }
     if (button.getAttribute('data-action') === 'modifier') {
         ModifierLivreEventHanler()
+        fillTable()
     }
     else
     {
@@ -357,15 +235,8 @@ function HandleDialogEventListener(event)
     }
 }
 modifier_dialog.addEventListener('click', HandleDialogEventListener)
-console.log(modifier_submit_btn);
 
-// modifier_submit_btn.addEventListener('click', (event) => {
-//     
-// })
 chercher_input.addEventListener('input', rechercher)
-titre.addEventListener('focusout', ValidateTitle)
-auteur.addEventListener('focusout', ValidateAuteur)
-annee.addEventListener('focusout', ValidateYear)
 livre_form.addEventListener('submit', AjouterLivreEventHandler)
 fillTable()
 livre_tableau.addEventListener('click', TableauActionEvetListener)
